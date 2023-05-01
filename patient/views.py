@@ -54,6 +54,7 @@ def patient_index(req: HttpRequest):
         'form': form
     })
 
+
 @login_required()
 def patient_model(req: HttpRequest):
     if req.method == 'POST':
@@ -90,6 +91,7 @@ def patient_model(req: HttpRequest):
 
     return redirect("patient_index")
 
+
 @login_required()
 def patient_show(req: HttpRequest, id: int):
     item = Patient.objects.get(id=id)
@@ -98,15 +100,33 @@ def patient_show(req: HttpRequest, id: int):
         'item': item
     })
 
+
 @login_required()
 def patient_edit(req: HttpRequest, id: int):
-    item = Patient.objects.get(id=id)
-    form = PatientForm()
+    if req.method == 'GET':
+        if id == 0:
+            form = PatientForm()
+        else:
+            item = Patient.objects.get(id=id)
+            form = PatientForm(instance=item)
+    else:
+        if id == 0:
+            form = PatientForm(req.POST)
+        else:
+            print(id)
+            item = Patient.objects.get(id=id)
+            form = PatientForm(req.POST, instance=item)
+            print(item)
+        if form.is_valid():
+            print(id)
 
+            form.save()
+            return redirect('patient_list')
     return render(req, 'patient/edit.html', {
         'item': item,
         'form': form
     })
+
 
 @login_required()
 def patient_update(req: HttpRequest, id: int):
@@ -119,6 +139,7 @@ def patient_update(req: HttpRequest, id: int):
     return render(req, 'patient/edit.html', {
         'item': item
     })
+
 
 @login_required()
 def patient_delete(req: HttpRequest, id: int):

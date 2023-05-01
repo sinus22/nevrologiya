@@ -14,4 +14,8 @@ class Patient(models.Model):
     event = models.TextField(verbose_name="Xulosa", max_length=50)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['age', 'gender', 'symptom', 'event'],
+                                    name='uk_patient_age_gender_symtom_event')
+        ]
         db_table = "patient"
