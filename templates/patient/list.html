@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 {% block content %}
-    <h1>Isopcha</h1>
-    <a href="{% url 'patient_add' %}" class="btn btn-primary">Add </a>
+    <h1>Simptomlar</h1>
+    <a href="{% url 'patient_add' %}" class="btn btn-primary">Qo'shish </a>
     <br/>
     <hr>
     <table class="table table-bordered">
@@ -12,6 +12,7 @@
             <th>Jinsi</th>
             <th>Simtom</th>
             <th>Xulosa</th>
+            <th>Rahirilash</th>
         </tr>
         </thead>
         {% for item in items %}
@@ -21,6 +22,9 @@
                 <td>{{ item.gender }}</td>
                 <td>{{ item.symptom }}</td>
                 <td>{{ item.event }}</td>
+                 <td class="btn-gr">
+
+                 </td>
             </tr>
         {% endfor %}
     </table>

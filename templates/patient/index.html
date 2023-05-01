@@ -2,7 +2,6 @@
 {% block content %}
     <br>
     <hr>
-    <a href="{% url 'patient_add' %}" class="btn btn-primary">Symptom Kiritish </a>
     <form action="{% url 'patient_model' %}" method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">Model</button>

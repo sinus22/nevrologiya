@@ -6,11 +6,13 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, \
     CreateView, UpdateView, DeleteView
 import csv
+from django.contrib.auth.decorators import login_required
 
 from patient.forms import PatientForm, PatientSymptom
 from patient.models import Patient
 
 
+@login_required()
 def patient_create(req: HttpRequest):
     if req.method == 'POST':
         form = PatientForm(req.POST)
@@ -28,6 +30,7 @@ def patient_create(req: HttpRequest):
     })
 
 
+@login_required()
 def patient_list(req: HttpRequest):
     items = Patient.objects.all()
     return render(req, 'patient/list.html', {
@@ -35,6 +38,7 @@ def patient_list(req: HttpRequest):
     })
 
 
+@login_required()
 def patient_index(req: HttpRequest):
     # items = Patient.objects.all()
     # print(items)
@@ -50,7 +54,7 @@ def patient_index(req: HttpRequest):
         'form': form
     })
 
-
+@login_required()
 def patient_model(req: HttpRequest):
     if req.method == 'POST':
         items = Patient.objects.values('symptom').distinct().all()
@@ -86,7 +90,7 @@ def patient_model(req: HttpRequest):
 
     return redirect("patient_index")
 
-
+@login_required()
 def patient_show(req: HttpRequest, id: int):
     item = Patient.objects.get(id=id)
 
@@ -94,7 +98,7 @@ def patient_show(req: HttpRequest, id: int):
         'item': item
     })
 
-
+@login_required()
 def patient_edit(req: HttpRequest, id: int):
     item = Patient.objects.get(id=id)
     form = PatientForm()
@@ -104,7 +108,7 @@ def patient_edit(req: HttpRequest, id: int):
         'form': form
     })
 
-
+@login_required()
 def patient_update(req: HttpRequest, id: int):
     item = Patient.objects.get(id=id)
     form = PatientForm(req.POST, instance=item)
@@ -116,7 +120,7 @@ def patient_update(req: HttpRequest, id: int):
         'item': item
     })
 
-
+@login_required()
 def patient_delete(req: HttpRequest, id: int):
     item = Patient.objects.get(id=id)
     item.delete()
