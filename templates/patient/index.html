@@ -1,27 +1,17 @@
 {% extends 'main.html' %}
 {% block content %}
-    <h1>Isopcha</h1>
-    <a href="{% url 'patient_add' %}" class="btn btn-primary">Add </a>
+    <br>
+    <hr>
+    <a href="{% url 'patient_add' %}" class="btn btn-primary">Symptom Kiritish </a>
+    <form action="{% url 'patient_model' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Model</button>
+    </form>
+
     <br/>
     <hr>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Yoshi</th>
-            <th>Jinsi</th>
-            <th>Simtom</th>
-            <th>Xulosa</th>
-        </tr>
-        </thead>
-        {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.age }}</td>
-                <td>{{ item.gender }}</td>
-                <td>{{ item.symptom }}</td>
-                <td>{{ item.event }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <h1>Simptomlarni teshkirish</h1>
+    {% load crispy_forms_tags %}
+    {{ form|crispy }}
+
 {% endblock %}

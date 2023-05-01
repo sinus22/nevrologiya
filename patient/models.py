@@ -9,10 +9,9 @@ class Gender(models.TextChoices):
 
 class Patient(models.Model):
     age = models.IntegerField(verbose_name="Yoshi")
-    status = models.BooleanField(verbose_name="Status", default=True)
     gender = models.CharField(verbose_name="Jinsi", max_length=10, choices=Gender.choices)
-    symptom = models.TextField(verbose_name="Simtomlar")
-    event = models.TextField(verbose_name="Xulosa")
+    symptom = models.CharField(verbose_name="Simtomlar", max_length=50)
+    event = models.TextField(verbose_name="Xulosa", max_length=50)
 
     class Meta:
         db_table = "patient"
