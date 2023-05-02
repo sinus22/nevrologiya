@@ -103,27 +103,15 @@ def patient_show(req: HttpRequest, id: int):
 
 @login_required()
 def patient_edit(req: HttpRequest, id: int):
-    if req.method == 'GET':
-        if id == 0:
-            form = PatientForm()
-        else:
-            item = Patient.objects.get(id=id)
-            form = PatientForm(instance=item)
-    else:
-        if id == 0:
-            form = PatientForm(req.POST)
-        else:
-            print(id)
-            item = Patient.objects.get(id=id)
-            form = PatientForm(req.POST, instance=item)
-            print(item)
-        if form.is_valid():
-            print(id)
-
+    item = get_object_or_404(Patient, id=id)
+    form = PatientForm(req.POST or None, instance=item)
+    if form.is_valid():
+        try:
             form.save()
-            return redirect('patient_list')
+        except:
+            pass
+        return redirect('patient_list')
     return render(req, 'patient/edit.html', {
-        'item': item,
         'form': form
     })
 

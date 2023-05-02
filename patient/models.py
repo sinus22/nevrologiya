@@ -10,8 +10,11 @@ class Gender(models.TextChoices):
 class Patient(models.Model):
     age = models.IntegerField(verbose_name="Yoshi")
     gender = models.CharField(verbose_name="Jinsi", max_length=10, choices=Gender.choices)
-    symptom = models.CharField(verbose_name="Simtomlar", max_length=50)
-    event = models.TextField(verbose_name="Xulosa", max_length=50)
+    symptom = models.CharField(verbose_name="Simtomlar", max_length=250)
+    event = models.CharField(verbose_name="Xulosa", max_length=250)
+
+    def __str__(self):
+        return self.event
 
     class Meta:
         constraints = [
