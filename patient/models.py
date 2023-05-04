@@ -1,6 +1,4 @@
 from django.db import models
-
-
 # Create your models here.
 class Gender(models.TextChoices):
     MALE = 'erkak', "Erkak"
