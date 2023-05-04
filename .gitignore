@@ -1,5 +1,5 @@
-/.idea/csv-editor.xml
 /.idea
 venv
-patient/__pycache__
+patient/migrations/__pycache__
 *.pyc
+.env
