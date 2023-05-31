@@ -1,4 +1,6 @@
-from django.db import models
+from django.db import models, connection
+
+
 # Create your models here.
 class Gender(models.TextChoices):
     MALE = 'erkak', "Erkak"
@@ -13,6 +15,11 @@ class Patient(models.Model):
 
     def __str__(self):
         return self.event
+
+    @classmethod
+    def truncate(cls):
+        with connection.cursor() as cursor:
+            cursor.execute('TRUNCATE TABLE {0}'.format(cls._meta.db_table))
 
     class Meta:
         constraints = [

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "patient",
     "userApp",
     "crispy_forms",
-    "crispy_bootstrap5"
+    "crispy_bootstrap5",
+    "django_select2"
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

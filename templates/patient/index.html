@@ -2,15 +2,74 @@
 {% block content %}
     <br>
     <hr>
-    <form action="{% url 'patient_model' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary">Model</button>
-    </form>
+    <div class="row">
+        <div class="col-md-3">
+            <form action="{% url 'patient_model' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary ">Model</button>
+            </form>
+        </div>
+        {#        <div class="col-md-3">#}
+        {#            <form action="{% url 'patient_model2' %}" method="post">#}
+        {#                {% csrf_token %}#}
+        {#                <button type="submit" class="btn btn-primary ">Model2</button>#}
+        {#            </form>#}
+        {#        </div>#}
+    </div>
+
+
 
     <br/>
     <hr>
     <h1>Simptomlarni teshkirish</h1>
-    {% load crispy_forms_tags %}
-    {{ form|crispy }}
-    <button class="btn btn-primary">Teshkirish</button>
+    <form method="POST">
+        {% csrf_token %}
+        {#        {{ form.as_p }}#}
+        {#        <input type="submit">#}
+        {#    </form>#}
+        {% load crispy_forms_tags %}
+        {{ form|crispy }}
+        <button class="btn btn-primary">Teshkirish</button>
+    </form>
+    {% if result %}
+        <hr>
+        <ul>
+            {% for item in symptom %}
+                <li>{{ item }}</li>
+            {% endfor %}
+            <li>Yoshi: {{ age }}</li>
+            <li>Jinsi: {{ gender }}</li>
+        </ul>
+        <h2>{{ result.0 }}</h2>
+    {% endif %}
+{% endblock %}
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#id_symptom').select2();
+
+            {#$('#id_symptom').select2({#}
+            {#    ajax: {#}
+            {#        url: "{% url 'tag-complate' %}",#}
+            {#        dataType: "json",#}
+            {#        processResults: function (data) {#}
+            {#            // Transforms the top-level key of the response object from 'items' to 'results'\#}
+            {#            console.log(data);#}
+            {#            return {#}
+            {#                results: data#}
+            {#            };#}
+            {#        }#}
+            {#    },#}
+            {#    minimumInputLength: 2,#}
+            {#    placeholder: "Tag",#}
+            {#    theme: "bootstrap-5",#}
+            {# }); #}
+
+            //.id_tag
+        }); //.document
+    </script>
+{% endblock %}
+{% block head %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 {% endblock %}
