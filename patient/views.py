@@ -42,7 +42,7 @@ def patient_create(req: HttpRequest):
 
 @login_required()
 def patient_list(req: HttpRequest):
-    items = Patient.objects.all()
+    items = Patient.objects.order_by("symptom").all()
     return render(req, 'patient/list.html', {
         'items': items
     })
