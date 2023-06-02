@@ -82,6 +82,15 @@ def patient_index(req: HttpRequest):
             test1.append(1)
 
         result = loaded_model.predict([test1])
+        probabilities = loaded_model.predict_proba([test1])
+        dataset = pd.read_csv('write_to_csv.csv', delimiter=';')
+        # datasetni shuffle qilish
+        dataset = dataset.sample(frac=1)
+        types = dataset['xulosa'].unique()
+        prediction_probabilities = {}
+        for i in range(len(types)):
+            prediction_probabilities[types[i]] = probabilities[0][i]
+        print(prediction_probabilities)
         print(result)
         symptom = symp
     return render(req, 'patient/index.html', {
@@ -136,7 +145,7 @@ def patient_model(req: HttpRequest):
         dataset = dataset.sample(frac=1)
 
         # columnla soni 52 bo'lani uchun xulosani addelniy olib qolgan 51 donasi X ga yuklangan
-        X = dataset[list(dataset.columns[:51])]
+        X = dataset[list(dataset.columns[:-1])]
         y = dataset['xulosa']
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
