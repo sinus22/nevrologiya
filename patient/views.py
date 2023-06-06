@@ -54,6 +54,7 @@ def patient_index(req: HttpRequest):
     # print(items)
     form = PatientSymptom()
     result = list()
+    prediction_probabilities = []
     symptom = list()
     age = 1
     gender = 'Erkak'
@@ -87,7 +88,7 @@ def patient_index(req: HttpRequest):
         # datasetni shuffle qilish
         dataset = dataset.sample(frac=1)
         types = dataset['xulosa'].unique()
-        prediction_probabilities = []
+
 
         for i in range(len(loaded_model.classes_)):
             prediction_probabilities.append(
