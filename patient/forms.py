@@ -28,14 +28,14 @@ GEEKS_CHOICES = (
 
 
 class PatientSymptom(forms.Form):
-    age = forms.IntegerField()
-    gender = forms.ChoiceField(choices=GEEKS_CHOICES)
+    age = forms.IntegerField(label='Yoshi')
+    gender = forms.ChoiceField(choices=GEEKS_CHOICES, label='Jinsi')
     model = Patient.objects.values('symptom').distinct().all()
     choice = list()
     for item in model:
         choice.append((item['symptom'], item['symptom']))
     # print(choice)
-    symptom = forms.MultipleChoiceField(widget=Select2MultipleWidget, choices=choice)
+    symptom = forms.MultipleChoiceField(widget=Select2MultipleWidget, choices=choice, label='Kasallik belgilari')
     # class Meta:
     #     model = Patient
     #     fields = ['age', 'gender', 'symptom']
