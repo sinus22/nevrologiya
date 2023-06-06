@@ -47,8 +47,9 @@
 
     {% endif %}
 {% endblock %}
+{% load static %}
 {% block js %}
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{% static 'js/select2.min.js' %}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#id_symptom').select2();
@@ -75,5 +76,5 @@
     </script>
 {% endblock %}
 {% block head %}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link href="{% static '/css/select2.min.css' %}" rel="stylesheet"/>
 {% endblock %}
