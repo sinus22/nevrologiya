@@ -31,7 +31,7 @@
         {{ form|crispy }}
         <button class="btn btn-primary">Teshkirish</button>
     </form>
-    {% if result %}
+    {% if prediction %}
         <hr>
         <ul>
             {% for item in symptom %}
@@ -40,7 +40,11 @@
             <li>Yoshi: {{ age }}</li>
             <li>Jinsi: {{ gender }}</li>
         </ul>
-        <h2>{{ result.0 }}</h2>
+        {% for item in prediction %}
+            <h4> {{ forloop.counter }} . <b class="text-capitalize">{{ item.text }}</b>, ehtimolligi: {{ item.result }}
+                %</h4>
+        {% endfor %}
+
     {% endif %}
 {% endblock %}
 {% block js %}

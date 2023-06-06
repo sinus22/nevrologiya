@@ -61,13 +61,12 @@ def patient_index(req: HttpRequest):
         data = req.POST
         filename = 'patient_model.sav'
         loaded_model = pickle.load(open(filename, 'rb'))
-        print(req.POST)
         # for item in data.get('symptom'):
         model = Patient.objects.values('symptom').distinct().all()
         test1 = list()
-        symp = req.POST.getlist('symptom')
-        age = int(req.POST['age'])
-        gender = req.POST['gender']
+        symp = data.getlist('symptom')
+        age = int(data.get('age'))
+        gender = data.get('gender')
 
         for item in model:
             ok = False
@@ -75,30 +74,34 @@ def patient_index(req: HttpRequest):
                 if value == item['symptom']:
                     ok = True
             test1.append(ok)
-        test1.append(int(req.POST['age']))
+        test1.append(age)
         if req.POST['gender'] == 'erkak':
             test1.append(0)
         else:
             test1.append(1)
 
         result = loaded_model.predict([test1])
+        # loaded_model
         probabilities = loaded_model.predict_proba([test1])
         dataset = pd.read_csv('write_to_csv.csv', delimiter=';')
         # datasetni shuffle qilish
         dataset = dataset.sample(frac=1)
         types = dataset['xulosa'].unique()
-        prediction_probabilities = {}
-        for i in range(len(types)):
-            prediction_probabilities[types[i]] = probabilities[0][i]
-        print(prediction_probabilities)
-        print(result)
+        prediction_probabilities = []
+
+        for i in range(len(loaded_model.classes_)):
+            prediction_probabilities.append(
+                {"text": loaded_model.classes_[i], 'result': int(probabilities[0][i] * 1000) / 10.})
+
+        prediction_probabilities.sort(key=sort_by, reverse=True)
         symptom = symp
     return render(req, 'patient/index.html', {
         'form': form,
         'result': result,
         'symptom': symptom,
+        'prediction': prediction_probabilities[:min(len(prediction_probabilities), 3)],
         'age': age,
-        'gender': gender
+        'gender': gender,
     })
 
 
@@ -106,8 +109,6 @@ def patient_index(req: HttpRequest):
 def patient_model(req: HttpRequest):
     if req.method == 'POST':
         items = Patient.objects.values('symptom').distinct().all()
-        # print(items)
-        # print("post")
         item_to = []
         for item in items:
             item_to.append(item['symptom'])
@@ -166,8 +167,6 @@ def patient_model(req: HttpRequest):
 def patient_model2(req: HttpRequest):
     if req.method == 'POST':
         items = Patient.objects.values('symptom').distinct().all()
-        # print(items)
-        # print("post")
         item_to = []
         for item in items:
             item_to.append(item['symptom'])
@@ -303,6 +302,10 @@ def tagComplate(req: HttpRequest):
     for item in model:
         choice.append({"id": item['symptom'], "text": item['symptom']})
     return JsonResponse(choice, safe=False)
+
+
+def sort_by(e):
+    return float(e['result'])
 
 # class PatientDetailView(DetailView):
 #     model = Patient

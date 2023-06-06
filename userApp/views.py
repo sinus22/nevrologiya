@@ -13,7 +13,6 @@ def user_login(req: HttpRequest):
 
         user = authenticate(req, username=username, password=password)
         if user is not None:
-            print(user)
             login(req, user)
             return redirect("patient_list")
     return render(req, "login.html")
